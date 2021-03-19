@@ -1,16 +1,17 @@
 - hosts: all
-  vars:
   tasks:
-        - name: "Sending Hadoop from Controller node to Hosts" 
-          copy:
-                - dest: "/root"
-                  src: "/root/hadoop-1.2.1-1.x86_64.rpm"
-        - name: "Sending JDK to Host Systems" 
-          copy:
-                - dest: "/root"
-                  src: "/root/jdk-8u171-linux-x64.rpm"
-        - name: "Installing Hadoop"
-          command: "rpm -i hadoop-1.2.1-1.x86_64.rpm"
+  - name: "Sending Hadoop from Controller node to Hosts"
+    copy:
+        src: "/root/hadoop-1.2.1-1.x86_64.rpm"
+        dest: "/root"
 
-        - name: "Installing JDK"
-          command: "rpm -i jdk-8u171-linux-x64.rpm" 
+  - name: "Sending JDK to Host Systems" 
+    copy:
+        dest: "/root"
+        src: "/root/jdk-8u171-linux-x64.rpm"
+
+  - name: "Installing Hadoop"
+    command: "rpm -i hadoop-1.2.1-1.x86_64.rpm --force"
+
+  - name: "Installing JDK"
+    command: "rpm -i jdk-8u171-linux-x64.rpm" 

@@ -1,7 +1,0 @@
-- hosts: all
-  vars:
-  tasks:
-        - name: "Sending Hadoop from Controller node to Hosts 
-        - copy:
-                - dest:  
-

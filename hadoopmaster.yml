@@ -1,0 +1,45 @@
+- hosts: 192.168.56.104
+  vars_files:
+          - master_var.yml
+  tasks:
+          - name: "Creating a directory"
+            file:
+               state: directory
+               path: "{{ directory_path }}"
+               
+          - name: "Copying hdfs-site.xml"
+            copy: 
+               src: "{{ hdfs_site }}" 
+               dest: "/etc/hadoop"
+
+          - name: "Copying core-site.xml"
+            copy:
+               src: "{{ core_site }}"
+               dest: "/etc/hadoop"
+
+          - name: "Formatting the namenode directory"
+            shell: "echo Y | hadoop namenode -format"
+            register: format
+
+          - name: "Check format status"
+            debug:
+               var: format.stdout
+
+          - name: "Stopping Namenode before we run the file"
+            shell: "hadoop-daemon.sh stop namenode"
+            ignore_errors: yes
+            register: hadoop_stopped
+
+          - name: "Check the output of stopping Hadoop"
+            debug:
+               var: hadoop_stopped.stdout
+
+          - name: "Starting namenode service"
+            shell: "hadoop-deamon.sh start namenode"
+            register: hadoop_start
+
+          - name: "Check the output of starting Hadoop"
+            debug:
+               var: hadoop_start.stdout
+
+

@@ -1,0 +1,6 @@
+hdfs_site: "./slaveConfig/hdfs-site.xml" 
+
+core_site: "./slaveConfig/core-site.xml"
+
+directory_path: "/datanode"
+

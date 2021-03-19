@@ -1,6 +1,6 @@
-hdfs_site: "/etc/hadoop/hdfs-site.xml" 
+hdfs_site: "./masterConfig/hdfs-site.xml" 
 
-core_site: "/etc/hadoop/core-site.xml"
+core_site: "./masterConfig/core-site.xml"
 
 directory_path: "/namenode"
 

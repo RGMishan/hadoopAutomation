@@ -1,6 +1,6 @@
-- hosts: 192.168.56.104
+- hosts: 192.168.56.105
   vars_files:
-          - master_vars.yml
+          - slave_vars.yml
   tasks:
           - name: "Creating a directory"
             file:
@@ -17,29 +17,29 @@
                src: "{{ core_site }}"
                dest: "/etc/hadoop"
 
-          - name: "Formatting the namenode directory"
-            shell: "echo Y | hadoop namenode -format"
-            register: format
-
-          - name: "Check format status"
-            debug:
-               var: format.stdout
-
-          - name: "Stopping Namenode before we run the file"
-            shell: "hadoop-daemon.sh stop namenode"
+          - name: "Stopping Datanode before we run the file"
+            shell: "hadoop-daemon.sh stop datanode"
             ignore_errors: yes
             register: hadoop_stopped
 
-          - name: "Check the output of stopping Hadoop"
+          - name: "Check the output of stopping Hadoop Service"
             debug:
                var: hadoop_stopped.stdout
 
-          - name: "Starting namenode service"
-            shell: "hadoop-daemon.sh start namenode"
+          - name: "Starting datanode service"
+            shell: "hadoop-daemon.sh start datanode"
             register: hadoop_start
 
           - name: "Check the output of starting Hadoop"
             debug:
                var: hadoop_start.stdout
+
+          - name: "Checking hadoop cluster detail"
+            shell: "hadoop dfsadmin -report"
+            register: hadoop_report
+
+          - name: "Debugging the Report Collected"
+            debug:
+               var: hadoop_report.stdout 
 
 
